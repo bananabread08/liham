@@ -60,11 +60,14 @@ export const logout = async (
   res: Response,
   next: NextFunction,
 ) => {
+  res.clearCookie('connect.sid');
   req.logout(function (err) {
     if (err) {
       return next(err);
     }
-    res.clearCookie('connect.sid');
-    res.json({ message: 'logout success' });
+    req.session.destroy(function (err) {
+      if (err) next(err);
+      res.send();
+    });
   });
 };
