@@ -12,6 +12,7 @@ import session from 'express-session';
 import { authRouter } from './routes/auth.route';
 import connectPgSimple from 'connect-pg-simple';
 import { SESSION_SECRET } from './config';
+import { userRouter } from './routes/user.route';
 
 const store = new (connectPgSimple(session))();
 const app = express();
@@ -31,11 +32,12 @@ app.use(
     cookie: {
       secure: process.env.NODE_ENV === 'production' ? true : false,
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 1000 * 60 * 60 * 24,
     },
   }),
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -48,6 +50,7 @@ app.get('/api/v1/demo', (req: Request, res: Response, _next: NextFunction) => {
 });
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/user', userRouter);
 // if (process.env.NODE_ENV === 'production') {
 //   const __dirname = path.resolve();
 //   app.use(express.static(path.join(__dirname, 'dist')));
