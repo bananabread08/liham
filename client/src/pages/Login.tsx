@@ -12,36 +12,60 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
+import { useMutation } from '@tanstack/react-query'
+import { login } from '@/services/auth.service'
+import { useNavigate } from 'react-router-dom'
+import { Loading } from '@/components/common/Loading'
+import { useAuth } from '@/hooks/useAuth'
+import { useEffect } from 'react'
 
 const formSchema = z.object({
-  email: z.string().email(),
+  username: z.string().min(6),
   password: z.string().min(6),
 })
 
 const LoginForm = () => {
+  const { dispatch, isLoading } = useAuth()
+
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
+      username: '',
       password: '',
     },
   })
 
+  const mutation = useMutation({
+    mutationFn: login,
+    onSuccess: (payload) => {
+      dispatch({ type: 'LOGIN', payload })
+      navigate('/')
+    },
+  })
+
+  useEffect(() => {
+    if (isLoading) navigate('/')
+  }, [isLoading, navigate])
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    mutation.mutate(values)
+  }
+
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-4">
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
-          name="email"
+          name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="your@email.com"
-                  {...field}
-                  className="min-w-[300px]"
-                />
+                <Input {...field} className="min-w-[300px]" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,7 +84,9 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Login</Button>
+        <Button type="submit" disabled={mutation.isPending}>
+          {mutation.isPending ? <Loading /> : 'Login'}
+        </Button>
         <div className="flex gap-4 items-center justify-center">
           <Button type="button" className="flex-1">
             <GitHubLogoIcon />

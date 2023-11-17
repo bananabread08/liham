@@ -11,20 +11,35 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { GitHubLogoIcon } from '@radix-ui/react-icons'
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-  confirmPassword: z.string(),
-})
+const formSchema = z
+  .object({
+    username: z.string().email(),
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    avatar: z.string().optional(),
+    password: z.string().min(6),
+    confirmPassword: z.string(),
+  })
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Passwords do not match.',
+        path: ['confirmPassword'],
+      })
+    }
+  })
 
 const RegisterForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
+      username: '',
+      firstName: '',
+      lastName: '',
       password: '',
+      confirmPassword: '',
     },
   })
 
@@ -33,16 +48,42 @@ const RegisterForm = () => {
       <form className="flex flex-col gap-4">
         <FormField
           control={form.control}
-          name="email"
+          name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input
                   placeholder="your@email.com"
                   {...field}
                   className="min-w-[300px]"
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Given Name</FormLabel>
+              <FormControl>
+                <Input {...field} className="min-w-[300px]" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Surname</FormLabel>
+              <FormControl>
+                <Input {...field} className="min-w-[300px]" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -75,14 +116,6 @@ const RegisterForm = () => {
           )}
         />
         <Button type="submit">Register</Button>
-        <div className="flex gap-4 items-center justify-center">
-          <Button type="button" className="flex-1">
-            <GitHubLogoIcon />
-          </Button>
-          <Button type="button" className="flex-1">
-            Google
-          </Button>
-        </div>
       </form>
     </Form>
   )

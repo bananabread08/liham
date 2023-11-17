@@ -4,11 +4,15 @@ import { NotFound } from './pages/NotFound'
 import { Home } from './pages/Home'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
-
+import { ProtectedRoute } from './components/ProtectedRoute'
 export const routesConfig: RouteObject[] = [
   {
     path: '/',
-    element: <RootLayout />,
+    element: (
+      <ProtectedRoute>
+        <RootLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <NotFound />,
     children: [
       {

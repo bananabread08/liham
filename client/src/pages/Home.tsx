@@ -1,3 +1,12 @@
+import { useAuth } from '@/hooks/useAuth'
+
 export const Home = () => {
-  return <section className="bg-blue-300 h-full">This is home</section>
+  const { state } = useAuth()
+
+  return (
+    <section className="bg-blue-300 h-full">
+      <h1>This is home</h1>
+      <div>Welcome {state.user?.username}</div>
+    </section>
+  )
 }
