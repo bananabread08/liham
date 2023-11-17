@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { db } from '../utils/db';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
+import { excludePass } from '../utils/excludePass';
 
 export const register = async (req: Request, res: Response) => {
   const { username, firstName, lastName, password, confirmPassword } = req.body;
@@ -26,9 +27,10 @@ export const register = async (req: Request, res: Response) => {
   });
   res.status(200).json({
     id: createdUser.id,
-    email: createdUser.username,
+    username: createdUser.username,
     firstName: createdUser.firstName,
     lastName: createdUser.lastName,
+    avatar: createdUser.avatar,
   });
 };
 
@@ -70,4 +72,14 @@ export const logout = async (
       res.send();
     });
   });
+};
+
+export const authUser = async (req: Request, res: Response) => {
+  const user = await db.user.findUnique({
+    where: { id: req.user?.id },
+    select: excludePass,
+  });
+
+  if (!user) throw createHttpError(400, 'User not found');
+  res.status(200).json(user);
 };

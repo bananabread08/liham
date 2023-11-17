@@ -3,6 +3,7 @@ import createHttpError, { isHttpError } from 'http-errors';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { db } from '../utils/db';
 import bcrypt from 'bcrypt';
+import { DoneCallback } from 'passport';
 
 export const unknownEndpoint = (
   req: Request,
@@ -43,9 +44,10 @@ export const passportHandler = new LocalStrategy(async function (
 ) {
   try {
     const user = await db.user.findUnique({ where: { username } });
-    if (!user) return done(null, false);
+    if (!user) return done(null, false, { message: 'User not found.' });
     const passwordMatch = bcrypt.compare(password, user.password);
-    if (!passwordMatch) return done(null, false);
+    if (!passwordMatch)
+      return done(null, false, { message: 'Invalid credentials.' });
     return done(null, {
       id: user.id,
       username: user.username,
@@ -59,16 +61,15 @@ export const passportHandler = new LocalStrategy(async function (
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const serializeUser = (user: any, cb: any) => {
-  cb(null, user.id);
+export const serializeUser = (user: any, done: DoneCallback) => {
+  done(null, user.id);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const deserializeUser = async (id: number, cb: any) => {
+export const deserializeUser = async (id: number, done: DoneCallback) => {
   try {
     const user = await db.user.findUnique({ where: { id } });
     if (user)
-      cb(null, {
+      done(null, {
         id: user.id,
         username: user.username,
         firstName: user.firstName,
@@ -76,6 +77,15 @@ export const deserializeUser = async (id: number, cb: any) => {
         avatar: user.avatar,
       });
   } catch (error) {
-    cb(error);
+    done(error);
   }
+};
+
+export const isAuthenticated = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
+  if (req.isAuthenticated()) next();
+  else throw createHttpError(401, 'Unauthenticated');
 };
