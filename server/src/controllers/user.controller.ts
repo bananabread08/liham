@@ -12,3 +12,15 @@ export const getCurrentUser = async (req: Request, res: Response) => {
   if (!user) throw createHttpError(400, 'User not found');
   res.status(200).json(user);
 };
+
+export const updateProfile = async (req: Request, res: Response) => {
+  const { firstName, lastName } = req.body;
+
+  const updated = await db.user.update({
+    where: { id: req.user?.id },
+    data: { firstName, lastName },
+    select: excludePass,
+  });
+
+  res.status(200).json(updated);
+};

@@ -1,7 +1,7 @@
 import express from 'express';
-import { getCurrentUser } from '../controllers/user.controller';
-import { isAuthenticated } from '../middlewares/middlewares';
+import { getCurrentUser, updateProfile } from '../controllers/user.controller';
 
 export const userRouter = express.Router();
 
-userRouter.get('/currentUser', isAuthenticated, getCurrentUser);
+userRouter.get('/currentUser', getCurrentUser);
+userRouter.patch('/:userId/update', updateProfile);
