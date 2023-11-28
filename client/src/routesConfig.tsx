@@ -5,6 +5,7 @@ import { Home } from './pages/Home'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { Profile } from './components/profile/Profile'
 export const routesConfig: RouteObject[] = [
   {
     path: '/',
@@ -18,6 +19,10 @@ export const routesConfig: RouteObject[] = [
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: '/profile',
+        element: <Profile />,
       },
     ],
   },

@@ -18,6 +18,6 @@ export const logout = async () => {
 }
 
 // export const getAuthUser = async (): Promise<PublicUser> => {
-//   const { data } = await api.get('/auth/user')
+//   const { data } = await api.get('/auth/persist')
 //   return data
 // }
