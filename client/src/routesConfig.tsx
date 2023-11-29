@@ -8,7 +8,7 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import { Profile } from './components/profile/Profile'
 import { Convos } from './components/convos/Convos'
 import { Contacts } from './components/contacts/Contacts'
-// import { SearchList } from './components/contacts/SearchList'
+import { Search } from './components/contacts/Search'
 // import { ContactList } from './components/contacts/ContactList'
 export const routesConfig: RouteObject[] = [
   {
@@ -35,16 +35,10 @@ export const routesConfig: RouteObject[] = [
       {
         path: '/contacts',
         element: <Contacts />,
-        // children: [
-        //   {
-        //     index: true,
-        //     element: <ContactList />,
-        //   },
-        //   {
-        //     path: '/contacts/search',
-        //     element: <SearchList />,
-        //   },
-        // ],
+      },
+      {
+        path: '/search',
+        element: <Search />,
       },
     ],
   },

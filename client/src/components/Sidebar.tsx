@@ -5,6 +5,7 @@ import {
   HomeIcon,
   EnvelopeClosedIcon,
   IdCardIcon,
+  MagnifyingGlassIcon,
 } from '@radix-ui/react-icons'
 import { Button } from './ui/button'
 import { useMutation } from '@tanstack/react-query'
@@ -86,6 +87,18 @@ const HomeLinks = () => {
       >
         <IdCardIcon className="w-5 h-auto" />
         <span className="hidden md:block">Contacts</span>
+      </NavLink>
+      <NavLink
+        to="/search"
+        className={({ isActive }) =>
+          cn(
+            'w-10 h-10 md:w-full flex gap-4 justify-center items-center hover:bg-muted rounded-full md:rounded-lg',
+            isActive ? 'bg-secondary' : null,
+          )
+        }
+      >
+        <MagnifyingGlassIcon className="w-5 h-auto" />
+        <span className="hidden md:block">Search</span>
       </NavLink>
     </>
   )
