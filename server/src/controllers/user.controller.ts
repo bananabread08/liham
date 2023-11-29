@@ -24,3 +24,32 @@ export const updateProfile = async (req: Request, res: Response) => {
 
   res.status(200).json(updated);
 };
+
+export const searchUsers = async (req: Request, res: Response) => {
+  const username = req.query.username as string;
+  const users = await db.user.findMany({
+    where: {
+      OR: [
+        {
+          username: {
+            contains: username,
+            mode: 'insensitive',
+          },
+        },
+        {
+          firstName: {
+            contains: username,
+            mode: 'insensitive',
+          },
+        },
+        {
+          lastName: {
+            contains: username,
+            mode: 'insensitive',
+          },
+        },
+      ],
+    },
+  });
+  res.json(users);
+};

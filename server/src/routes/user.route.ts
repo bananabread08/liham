@@ -1,7 +1,12 @@
 import express from 'express';
-import { getCurrentUser, updateProfile } from '../controllers/user.controller';
+import {
+  getCurrentUser,
+  searchUsers,
+  updateProfile,
+} from '../controllers/user.controller';
 
 export const userRouter = express.Router();
 
 userRouter.get('/currentUser', getCurrentUser);
-userRouter.patch('/:userId/update', updateProfile);
+userRouter.get('/search', searchUsers);
+userRouter.patch('/:userId', updateProfile);

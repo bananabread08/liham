@@ -50,7 +50,7 @@ app.get('/api/v1/demo', (req: Request, res: Response, _next: NextFunction) => {
 });
 
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/user', middlewares.isAuthenticated, userRouter);
+app.use('/api/v1/users', middlewares.isAuthenticated, userRouter);
 // if (process.env.NODE_ENV === 'production') {
 //   const __dirname = path.resolve();
 //   app.use(express.static(path.join(__dirname, 'dist')));
