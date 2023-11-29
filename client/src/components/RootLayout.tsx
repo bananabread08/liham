@@ -5,7 +5,7 @@ export const RootLayout = () => {
   return (
     <div className="flex flex-row justify-center leading-loose font-poppins h-screen">
       <Sidebar />
-      <main className="grow">
+      <main className="grow overflow-y-auto">
         <Outlet />
       </main>
     </div>
