@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return () => {
       mounted = false
     }
-  }, [state.authenticated])
+  }, [])
 
   const value = { state, dispatch, isLoading }
 

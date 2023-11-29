@@ -6,6 +6,10 @@ import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { Profile } from './components/profile/Profile'
+import { Convos } from './components/convos/Convos'
+import { Contacts } from './components/contacts/Contacts'
+// import { SearchList } from './components/contacts/SearchList'
+// import { ContactList } from './components/contacts/ContactList'
 export const routesConfig: RouteObject[] = [
   {
     path: '/',
@@ -23,6 +27,24 @@ export const routesConfig: RouteObject[] = [
       {
         path: '/profile',
         element: <Profile />,
+      },
+      {
+        path: '/convos',
+        element: <Convos />,
+      },
+      {
+        path: '/contacts',
+        element: <Contacts />,
+        // children: [
+        //   {
+        //     index: true,
+        //     element: <ContactList />,
+        //   },
+        //   {
+        //     path: '/contacts/search',
+        //     element: <SearchList />,
+        //   },
+        // ],
       },
     ],
   },
