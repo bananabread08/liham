@@ -8,5 +8,5 @@ import {
 export const userRouter = express.Router();
 
 userRouter.get('/currentUser', getCurrentUser);
-userRouter.get('/search', searchUsers);
+userRouter.get('/:username', searchUsers);
 userRouter.patch('/:userId', updateProfile);

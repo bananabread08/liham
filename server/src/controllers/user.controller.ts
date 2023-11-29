@@ -26,7 +26,10 @@ export const updateProfile = async (req: Request, res: Response) => {
 };
 
 export const searchUsers = async (req: Request, res: Response) => {
-  const username = req.query.username as string;
+  const username = req.params.username;
+  if (!username) {
+    return res.json([]);
+  }
   const users = await db.user.findMany({
     where: {
       OR: [
@@ -50,6 +53,7 @@ export const searchUsers = async (req: Request, res: Response) => {
         },
       ],
     },
+    select: excludePass,
   });
   res.json(users);
 };
