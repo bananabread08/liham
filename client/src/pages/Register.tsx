@@ -16,8 +16,8 @@ import { useMutation } from '@tanstack/react-query'
 import { useAuth } from '@/hooks/useAuth'
 import { register } from '@/services/auth.service'
 import { Loading } from '@/components/common/Loading'
-import { useEffect } from 'react'
 import { useToast } from '@/components/ui/use-toast'
+import { isAxiosError } from 'axios'
 
 const formSchema = z
   .object({
@@ -26,9 +26,7 @@ const formSchema = z
     lastName: z.string().optional(),
     avatar: z.string().optional(),
     password: z.string().min(6, 'Too short. Minimum of 6 characters.'),
-    confirmPassword: z
-      .string()
-      .min(6, 'Too short. Must be at least 6 characters.'),
+    confirmPassword: z.string().min(6, 'Too short. Minimum of 6 characters.'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
@@ -49,15 +47,24 @@ const RegisterForm = () => {
 
   const { toast } = useToast()
   const navigate = useNavigate()
-  const { isLoading } = useAuth()
+  const { isLoading, state } = useAuth()
 
   const mutation = useMutation({
     mutationFn: register,
     onSuccess: (payload) => {
       toast({
+        variant: 'success',
         title: `Succesfully Registered: ${payload.username}`,
       })
       navigate('/login')
+    },
+    onError: (error) => {
+      if (isAxiosError(error)) {
+        toast({
+          title: error.response?.data.error,
+          variant: 'destructive',
+        })
+      }
     },
   })
 
@@ -66,9 +73,9 @@ const RegisterForm = () => {
     mutation.mutate(values)
   }
 
-  useEffect(() => {
-    if (isLoading) navigate('/')
-  }, [isLoading, navigate])
+  // instead of useEffect, check persistence with these.
+  if (isLoading) return <Loading />
+  if (state.authenticated) navigate('/')
 
   return (
     <Form {...form}>
@@ -150,7 +157,10 @@ const RegisterForm = () => {
         </Button>
         <p>
           Already have an account?{' '}
-          <Link to="/login" className="text-emerald-300 underline">
+          <Link
+            to="/login"
+            className="text-emerald-400 dark:text-emerald-500 underline"
+          >
             Login
           </Link>
         </p>

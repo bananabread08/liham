@@ -33,6 +33,9 @@
     --ring: 240 10% 3.9%;
 
     --radius: 0.5rem;
+    --success-back: 147 64% 95%;
+    --success-border: 144 73% 87%;
+    --success-text: 144 72% 21%;
   }
 
   .dark {
@@ -63,6 +66,9 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --success-back: 154 34% 12%;
+    --success-border: 144 50% 22%;
+    --success-text: 147 64% 95%;
   }
 }
 

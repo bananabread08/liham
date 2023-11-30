@@ -2,9 +2,9 @@ export interface IUser {
   id: number
   username: string
   password: string
-  firstName?: string | null
-  lastName?: string | null
-  avatar?: string | null
+  firstName: string | null
+  lastName: string | null
+  avatar: string | null
   participant: IParticipant[]
   message: IMessage[]
 }
@@ -27,9 +27,11 @@ export interface IMessage {
 
 export type PublicUser = Omit<IUser, 'password'>
 export type LoginCredentials = Pick<IUser, 'username' | 'password'>
-export type RegisterCredentials = Omit<
-  IUser,
-  'id' | 'participant' | 'message'
-> & {
+export type RegisterCredentials = {
+  username: string
+  password: string
+  firstName?: string | null
+  lastName?: string | null
+  avatar?: string | null
   confirmPassword: string
 }
