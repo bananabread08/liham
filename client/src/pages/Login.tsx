@@ -14,13 +14,13 @@ import { Button } from '@/components/ui/button'
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '@/services/auth.service'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { Loading } from '@/components/common/Loading'
 import { useAuth } from '@/hooks/useAuth'
 import { useEffect } from 'react'
 
 const formSchema = z.object({
-  username: z.string().min(6),
+  username: z.string().min(3),
   password: z.string().min(6),
 })
 
@@ -95,6 +95,12 @@ const LoginForm = () => {
             Google
           </Button>
         </div>
+        <p>
+          Don't have an account?{' '}
+          <Link to="/register" className="text-emerald-300 underline">
+            Register
+          </Link>
+        </p>
       </form>
     </Form>
   )

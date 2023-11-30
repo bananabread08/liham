@@ -10,7 +10,6 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
@@ -37,7 +36,7 @@ const SearchResults = ({ search }: { search: string }) => {
 }
 
 const formSchema = z.object({
-  username: z.string().min(2, 'Must be at least 2 characters.'),
+  username: z.string().min(1, 'Must be at least 1 character.'),
 })
 
 export const Search = () => {
@@ -74,7 +73,6 @@ export const Search = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
         </form>
       </Form>
       <SearchResults search={debouncedSearch} />

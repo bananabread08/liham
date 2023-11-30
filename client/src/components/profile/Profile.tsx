@@ -24,7 +24,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
-import { IUser } from '@/types/type'
+import { PublicUser } from '@/types/type'
 
 const formSchema = z.object({
   firstName: z.string(),
@@ -35,7 +35,7 @@ const EditProfileForm = ({
   data,
   closeModal,
 }: {
-  data: IUser
+  data: PublicUser
   closeModal: () => void
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -100,7 +100,7 @@ const EditProfileForm = ({
   )
 }
 
-const EditProfile = ({ data }: { data: IUser }) => {
+const EditProfile = ({ data }: { data: PublicUser }) => {
   const [showEditProfile, setShowEditProfile] = useState(false)
 
   return (
