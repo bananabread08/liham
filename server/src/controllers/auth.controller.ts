@@ -17,6 +17,13 @@ export const register = async (req: Request, res: Response) => {
   if (emailExists) throw createHttpError(400, 'Email is already in use.');
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
+  /**
+   * TODO
+   * avatar : {
+   *   public_id: cloudID,
+   *   url: secure_url
+   * }
+   */
   const createdUser = await db.user.create({
     data: {
       username,

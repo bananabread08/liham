@@ -4,6 +4,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { db } from '../utils/db';
 import bcrypt from 'bcrypt';
 import { DoneCallback } from 'passport';
+import { bufferToDataURI, uploadToCloud } from '../utils/uploadBase';
 
 export const unknownEndpoint = (
   req: Request,
@@ -88,4 +89,23 @@ export const isAuthenticated = (
 ) => {
   if (req.isAuthenticated()) next();
   else throw createHttpError(401, 'Unauthenticated');
+};
+
+export const uploadImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { file } = req;
+  if (!file) {
+    res.locals.imageDetails = null;
+    return next();
+  }
+
+  const fileFormat = file.mimetype.split('/')[1];
+  const { base64 } = bufferToDataURI(fileFormat, file.buffer);
+  const imageDetails = await uploadToCloud(base64, fileFormat);
+  res.locals.imageDetails = imageDetails;
+
+  next();
 };
