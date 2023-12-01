@@ -3,6 +3,7 @@ import { routesConfig } from './routesConfig'
 import { ThemeProvider } from './context/ThemeContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './context/AuthContext'
+import { Toaster } from './components/ui/toaster'
 
 const router = createBrowserRouter(routesConfig)
 const queryClient = new QueryClient({
@@ -19,6 +20,7 @@ function App() {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <AuthProvider>
           <RouterProvider router={router} />
+          <Toaster />
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>

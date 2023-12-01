@@ -14,20 +14,19 @@ import { Button } from '@/components/ui/button'
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '@/services/auth.service'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { Loading } from '@/components/common/Loading'
 import { useAuth } from '@/hooks/useAuth'
-import { useEffect } from 'react'
 
 const formSchema = z.object({
-  username: z.string().min(6),
+  username: z.string().min(3),
   password: z.string().min(6),
 })
 
 const LoginForm = () => {
-  const { dispatch, isLoading } = useAuth()
-
+  const { dispatch, isLoading, state } = useAuth()
   const navigate = useNavigate()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,13 +43,13 @@ const LoginForm = () => {
     },
   })
 
-  useEffect(() => {
-    if (isLoading) navigate('/')
-  }, [isLoading, navigate])
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     mutation.mutate(values)
   }
+
+  // instead of useEffect, check persistence with these.
+  if (isLoading) return <Loading />
+  if (state.authenticated) navigate('/')
 
   return (
     <Form {...form}>
@@ -95,6 +94,15 @@ const LoginForm = () => {
             Google
           </Button>
         </div>
+        <p>
+          Don't have an account?{' '}
+          <Link
+            to="/register"
+            className="text-emerald-400 dark:text-emerald-500 underline"
+          >
+            Register
+          </Link>
+        </p>
       </form>
     </Form>
   )
