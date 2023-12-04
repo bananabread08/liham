@@ -11,7 +11,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { useAuth } from '@/hooks/useAuth'
 import { register } from '@/services/auth.service'
@@ -75,7 +75,7 @@ const RegisterForm = () => {
 
   // instead of useEffect, check persistence with these.
   if (isLoading) return <Loading />
-  if (state.authenticated) navigate('/')
+  if (state.authenticated) return <Navigate to="/" />
 
   return (
     <Form {...form}>

@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button'
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '@/services/auth.service'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, Navigate } from 'react-router-dom'
 import { Loading } from '@/components/common/Loading'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -49,7 +49,7 @@ const LoginForm = () => {
 
   // instead of useEffect, check persistence with these.
   if (isLoading) return <Loading />
-  if (state.authenticated) navigate('/')
+  if (state.authenticated) return <Navigate to="/" />
 
   return (
     <Form {...form}>
