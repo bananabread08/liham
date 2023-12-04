@@ -14,6 +14,7 @@ import { logout } from '@/services/auth.service'
 import { useAuth } from '@/hooks/useAuth'
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
+import { Loading } from './common/Loading'
 
 type HomeLinks = {
   name: string
@@ -44,9 +45,10 @@ const LogoutButton = () => {
       onClick={() => mutation.mutate()}
       variant="destructive"
       size="icon"
+      disabled={mutation.isPending}
       className="w-10 h-10 md:w-full md:flex justify-center gap-4 md:mt-auto"
     >
-      <ExitIcon />
+      {mutation.isPending ? <Loading /> : <ExitIcon />}
       <span className="hidden md:block">Logout</span>
     </Button>
   )

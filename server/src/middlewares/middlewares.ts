@@ -44,11 +44,12 @@ export const passportHandler = new LocalStrategy(async function (
   done,
 ) {
   try {
+    console.log('local start');
     const user = await db.user.findUnique({ where: { username } });
-    if (!user) return done(null, false, { message: 'User not found.' });
+    if (!user) return done(createHttpError(401, 'User not found.'), false);
     const passwordMatch = bcrypt.compare(password, user.password);
     if (!passwordMatch)
-      return done(null, false, { message: 'Invalid credentials.' });
+      return done(createHttpError(401, 'Incorrect password.'), false);
     return done(null, {
       id: user.id,
       username: user.username,
@@ -63,11 +64,13 @@ export const passportHandler = new LocalStrategy(async function (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const serializeUser = (user: any, done: DoneCallback) => {
-  done(null, user.id);
+  console.log('serializing');
+  return done(null, user.id);
 };
 
 export const deserializeUser = async (id: number, done: DoneCallback) => {
   try {
+    console.log('deserializing');
     const user = await db.user.findUnique({ where: { id } });
     if (user)
       done(null, {

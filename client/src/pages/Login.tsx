@@ -1,11 +1,4 @@
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,6 +10,8 @@ import { login } from '@/services/auth.service'
 import { useNavigate, Link, Navigate } from 'react-router-dom'
 import { Loading } from '@/components/common/Loading'
 import { useAuth } from '@/hooks/useAuth'
+import { isAxiosError } from 'axios'
+import { toast } from '@/components/ui/use-toast'
 
 const formSchema = z.object({
   username: z.string().min(3),
@@ -41,6 +36,14 @@ const LoginForm = () => {
       dispatch({ type: 'LOGIN', payload })
       navigate('/')
     },
+    onError: (error) => {
+      if (isAxiosError(error)) {
+        toast({
+          title: error.response?.data.error,
+          variant: 'destructive',
+        })
+      }
+    },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -53,10 +56,7 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="username"
@@ -96,10 +96,7 @@ const LoginForm = () => {
         </div>
         <p>
           Don't have an account?{' '}
-          <Link
-            to="/register"
-            className="text-emerald-400 dark:text-emerald-500 underline"
-          >
+          <Link to="/register" className="text-emerald-400 dark:text-emerald-500 underline">
             Register
           </Link>
         </p>
