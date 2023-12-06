@@ -11,14 +11,16 @@ datasource db {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
-  username    String        @unique
-  firstName   String?
-  lastName    String?
-  password    String
-  avatar      String?
-  participant Participant[]
-  message     Message[]
+  id              Int           @id @default(autoincrement())
+  username        String        @unique
+  firstName       String?
+  lastName        String?
+  password        String
+  avatar          String?
+  participant     Participant[]
+  message         Message[]
+  contacts        User[]        @relation("ContactsList")
+  addedByContacts User[]        @relation("ContactsList")
 }
 
 model Conversation {

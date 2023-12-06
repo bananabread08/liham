@@ -57,3 +57,37 @@ export const searchUsers = async (req: Request, res: Response) => {
   });
   res.json(users);
 };
+
+export const addToContacts = async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.userId);
+  const yourId = req.user?.id;
+  const currentUser = await db.user.findUnique({
+    where: { id: yourId },
+    select: excludePass,
+  });
+  const user = await db.user.findUnique({ where: { id: userId } });
+  if (!currentUser) throw createHttpError(401, 'User not found');
+  if (!user) throw createHttpError(401, 'Invalid User');
+  await db.user.update({
+    where: { id: currentUser.id },
+    data: { contacts: { connect: { id: user.id } } },
+  });
+  res.json({ message: 'Added to Contacts' });
+};
+
+export const removeFromContacts = async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.userId);
+  const yourId = req.user?.id;
+  const currentUser = await db.user.findUnique({
+    where: { id: yourId },
+    select: excludePass,
+  });
+  const user = await db.user.findUnique({ where: { id: userId } });
+  if (!currentUser) throw createHttpError(401, 'User not found');
+  if (!user) throw createHttpError(401, 'Invalid User');
+  await db.user.update({
+    where: { id: currentUser.id },
+    data: { contacts: { disconnect: { id: user.id } } },
+  });
+  res.json({ message: 'Removed from Contacts' });
+};
