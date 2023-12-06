@@ -9,7 +9,6 @@ import { Profile } from './components/profile/Profile'
 import { Convos } from './components/convos/Convos'
 import { Contacts } from './components/contacts/Contacts'
 import { Search } from './components/contacts/Search'
-// import { ContactList } from './components/contacts/ContactList'
 export const routesConfig: RouteObject[] = [
   {
     path: '/',

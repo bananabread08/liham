@@ -60,6 +60,7 @@ const HomeLinks = () => {
       {homeLinks.map((link) => {
         return (
           <NavLink
+            key={link.name}
             to={link.path}
             className={({ isActive }) =>
               cn(
