@@ -29,6 +29,7 @@ model Conversation {
   updatedAt   DateTime      @updatedAt
   participant Participant[]
   message     Message[]
+  name        String?
 }
 
 model Participant {
@@ -39,6 +40,7 @@ model Participant {
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+  status         JoinStatus
 }
 
 model Message {
@@ -57,4 +59,10 @@ model session {
   expire DateTime @db.Timestamp(6)
 
   @@index([expire], map: "IDX_session_expire")
+}
+
+enum JoinStatus {
+  reject
+  accept
+  pending
 }
