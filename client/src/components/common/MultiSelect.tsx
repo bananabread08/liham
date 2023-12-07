@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { ChevronUpIcon as ChevronsUpDown, CheckIcon as Check, Cross2Icon as X } from '@radix-ui/react-icons'
+import { ChevronDownIcon, CheckIcon as Check, Cross2Icon as X, ChevronUpIcon } from '@radix-ui/react-icons'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '../ui/command'
@@ -79,17 +79,21 @@ const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>(
                       handleUnselect(item)
                     }}
                   >
-                    <X width="20" height="20" className="w-auto h-auto text-muted-foreground hover:text-foreground" />
+                    <X width="15" height="15" className="w-auto h-auto text-muted-foreground hover:text-foreground" />
                   </Button>
                 </Badge>
               ))}
               {selected.length === 0 && <span>{props.placeholder ?? 'Select ...'}</span>}
             </div>
-            <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+            {open ? (
+              <ChevronUpIcon className="h-4 w-4 shrink-0 opacity-50" />
+            ) : (
+              <ChevronDownIcon className="h-4 w-4 shrink-0 opacity-50" />
+            )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0">
-          <Command className={className}>
+        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+          <Command>
             <CommandInput placeholder="Search ..." />
             <CommandEmpty>No item found.</CommandEmpty>
             <CommandGroup className="max-h-64 overflow-auto">
