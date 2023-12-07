@@ -7,8 +7,8 @@ export interface IUser {
   avatar: string | null
   participant: IParticipant[]
   message: IMessage[]
-  contacts: IUser[]
-  addedByContacts: IUser[]
+  contacts: PublicUser[]
+  addedByContacts: PublicUser[]
 }
 
 export interface IParticipant {
