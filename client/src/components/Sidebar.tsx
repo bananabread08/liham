@@ -1,12 +1,5 @@
 import { ModeToggle } from './ModeToggle'
-import {
-  ExitIcon,
-  PersonIcon,
-  HomeIcon,
-  EnvelopeClosedIcon,
-  IdCardIcon,
-  MagnifyingGlassIcon,
-} from '@radix-ui/react-icons'
+import { ExitIcon, PersonIcon, HomeIcon, EnvelopeClosedIcon, IdCardIcon } from '@radix-ui/react-icons'
 import type { IconProps } from '@radix-ui/react-icons/dist/types'
 import { Button } from './ui/button'
 import { useMutation } from '@tanstack/react-query'
@@ -27,7 +20,6 @@ const homeLinks = [
   { name: 'profile', path: '/profile', icon: <PersonIcon className="w-5 h-auto" /> },
   { name: 'convos', path: '/convos', icon: <EnvelopeClosedIcon className="w-5 h-auto" /> },
   { name: 'contacts', path: '/contacts', icon: <IdCardIcon className="w-5 h-auto" /> },
-  { name: 'search', path: '/search', icon: <MagnifyingGlassIcon className="w-5 h-auto" /> },
 ]
 
 const LogoutButton = () => {

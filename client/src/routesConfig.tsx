@@ -8,7 +8,6 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import { Profile } from './components/profile/Profile'
 import { Convos } from './components/convos/Convos'
 import { Contacts } from './components/contacts/Contacts'
-import { Search } from './components/contacts/Search'
 export const routesConfig: RouteObject[] = [
   {
     path: '/',
@@ -34,10 +33,6 @@ export const routesConfig: RouteObject[] = [
       {
         path: '/contacts',
         element: <Contacts />,
-      },
-      {
-        path: '/search',
-        element: <Search />,
       },
     ],
   },

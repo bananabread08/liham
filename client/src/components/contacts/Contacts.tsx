@@ -2,6 +2,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { getCurrentUser } from '@/services/user.service'
 import { useQuery } from '@tanstack/react-query'
 import { Loading } from '../common/Loading'
+import { Search } from './Search'
 
 export const Contacts = () => {
   const { state } = useAuth()
@@ -15,11 +16,12 @@ export const Contacts = () => {
 
   return (
     <section>
-      <h1>Contacts</h1>
+      <Search />
+      <h1>Your Contacts</h1>
 
       <div>
         {data.contacts.map((u) => {
-          return <div>{u.username}</div>
+          return <div key={u.id}>{u.username}</div>
         })}
       </div>
     </section>
