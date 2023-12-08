@@ -19,6 +19,11 @@ export const searchUsers = async (username: string): Promise<PublicUser[]> => {
   return data
 }
 
+export const getUserContacts = async (): Promise<PublicUser[]> => {
+  const { data } = await api.get('/users/currentUser/contacts')
+  return data
+}
+
 export const addUserToContacts = async (userId: number) => {
   const { data } = await api.patch(`/users/${userId}/add/contacts`)
   return data

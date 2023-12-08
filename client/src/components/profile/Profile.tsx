@@ -3,22 +3,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Loading } from '../common/Loading'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '../ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogTitle,
-  DialogDescription,
-  DialogHeader,
-} from '../ui/dialog'
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from '@/components/ui/form'
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription, DialogHeader } from '../ui/dialog'
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -31,13 +17,7 @@ const formSchema = z.object({
   lastName: z.string(),
 })
 
-const EditProfileForm = ({
-  data,
-  closeModal,
-}: {
-  data: PublicUser
-  closeModal: () => void
-}) => {
+const EditProfileForm = ({ data, closeModal }: { data: PublicUser; closeModal: () => void }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,10 +42,7 @@ const EditProfileForm = ({
 
   return (
     <Form {...form}>
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="firstName"
@@ -111,14 +88,9 @@ const EditProfile = ({ data }: { data: PublicUser }) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Update User Details</DialogTitle>
-          <DialogDescription>
-            Change your bio to spice up profile!
-          </DialogDescription>
+          <DialogDescription>Change your bio to spice up profile!</DialogDescription>
         </DialogHeader>
-        <EditProfileForm
-          data={data}
-          closeModal={() => setShowEditProfile(false)}
-        />
+        <EditProfileForm data={data} closeModal={() => setShowEditProfile(false)} />
       </DialogContent>
     </Dialog>
   )

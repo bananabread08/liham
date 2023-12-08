@@ -1,5 +1,5 @@
 import { useAuth } from '@/hooks/useAuth'
-import { getCurrentUser } from '@/services/user.service'
+import { getUserContacts } from '@/services/user.service'
 import { useQuery } from '@tanstack/react-query'
 import { Loading } from '../common/Loading'
 import { Search } from './Search'
@@ -7,8 +7,8 @@ import { Search } from './Search'
 export const Contacts = () => {
   const { state } = useAuth()
   const { data, status, error } = useQuery({
-    queryFn: getCurrentUser,
-    queryKey: ['user', { id: state.user?.id }],
+    queryFn: getUserContacts,
+    queryKey: ['contacts', { id: state.user?.id }],
   })
 
   if (status === 'pending') return <Loading />
@@ -20,7 +20,7 @@ export const Contacts = () => {
       <h1>Your Contacts</h1>
 
       <div>
-        {data.contacts.map((u) => {
+        {data.map((u) => {
           return <div key={u.id}>{u.username}</div>
         })}
       </div>

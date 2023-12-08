@@ -29,7 +29,7 @@ export const useContact = (id: number | undefined) => {
     onSuccess: () =>
       Promise.all([
         queryClient.invalidateQueries({ queryKey: ['users'] }),
-        queryClient.invalidateQueries({ queryKey: ['user', { id }] }),
+        queryClient.invalidateQueries({ queryKey: ['contacts', { id }] }),
       ]),
   })
 
@@ -38,7 +38,7 @@ export const useContact = (id: number | undefined) => {
     onSuccess: () =>
       Promise.all([
         queryClient.invalidateQueries({ queryKey: ['users'] }),
-        queryClient.invalidateQueries({ queryKey: ['user', { id }] }),
+        queryClient.invalidateQueries({ queryKey: ['contacts', { id }] }),
       ]),
   })
   return {

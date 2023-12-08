@@ -1,4 +1,3 @@
-import { searchUsers } from '@/services/user.service'
 import { Loading } from '../common/Loading'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -7,11 +6,11 @@ import { Input } from '@/components/ui/input'
 import { Button } from '../ui/button'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@/hooks/useDebounce'
 import { PublicUser } from '@/types/type'
 import { useAuth } from '@/hooks/useAuth'
 import { useContact } from '@/hooks/useContact'
+import { useSearch } from '@/hooks/useSearch'
 
 const SearchedUser = ({ user }: { user: PublicUser; search: string }) => {
   const { state } = useAuth()
@@ -34,14 +33,9 @@ const SearchedUser = ({ user }: { user: PublicUser; search: string }) => {
 }
 
 const SearchResults = ({ search }: { search: string }) => {
-  const { data, status, error } = useQuery({
-    queryFn: () => searchUsers(search),
-    queryKey: ['users', { search }],
-    enabled: !!search,
-  })
+  const { data, status } = useSearch(search)
 
-  if (search && status === 'pending') return <Loading />
-  if (status === 'error') return <div>{error.message}</div>
+  if (status === 'pending') return <Loading />
   if (data?.length === 0 || !data) return <div>No users found.</div>
   return (
     <div>
@@ -53,7 +47,7 @@ const SearchResults = ({ search }: { search: string }) => {
 }
 
 const formSchema = z.object({
-  username: z.string().min(1, 'Must be at least 1 character.'),
+  username: z.string().trim().min(1, 'Must be at least 1 character.'),
 })
 
 export const Search = () => {
