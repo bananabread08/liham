@@ -4,6 +4,23 @@ import createHttpError from 'http-errors';
 import { assertHasUser } from '../utils/assertHasUser';
 // import { excludePass } from '../utils/excludePass';
 // import createHttpError from 'http-errors';
+export const getCurrentUserConversations = async (
+  req: Request,
+  res: Response,
+) => {
+  assertHasUser(req);
+  const userId = req.user.id;
+  const convos = await db.conversation.findMany({
+    where: {
+      participant: {
+        some: {
+          userId,
+        },
+      },
+    },
+  });
+  return res.json(convos);
+};
 
 export const createConversation = async (req: Request, res: Response) => {
   assertHasUser(req);
@@ -20,7 +37,7 @@ export const createConversation = async (req: Request, res: Response) => {
         createMany: {
           data: participants.map((id: string) => ({
             userId: parseInt(id),
-            status: 'pending',
+            status: parseInt(id) === userId ? 'accept' : 'pending',
           })),
         },
       },
