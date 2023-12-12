@@ -6,4 +6,6 @@ export const excludePass = {
   avatar: true,
   participant: true,
   message: true,
+  contacts: true,
+  addedByContacts: true,
 };

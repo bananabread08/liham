@@ -1,8 +1,4 @@
-import type {
-  LoginCredentials,
-  PublicUser,
-  RegisterCredentials,
-} from '@/types/type'
+import type { LoginCredentials, PublicUser, RegisterCredentials } from '@/types/type'
 import { api } from './api'
 
 export const login = async (creds: LoginCredentials): Promise<PublicUser> => {
@@ -10,9 +6,7 @@ export const login = async (creds: LoginCredentials): Promise<PublicUser> => {
   return data
 }
 
-export const register = async (
-  creds: RegisterCredentials,
-): Promise<PublicUser> => {
+export const register = async (creds: RegisterCredentials): Promise<PublicUser> => {
   const { data } = await api.post('/auth/register', creds)
   return data
 }

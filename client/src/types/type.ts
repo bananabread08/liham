@@ -7,6 +7,8 @@ export interface IUser {
   avatar: string | null
   participant: IParticipant[]
   message: IMessage[]
+  contacts: PublicUser[]
+  addedByContacts: PublicUser[]
 }
 
 export interface IParticipant {
@@ -26,6 +28,7 @@ export interface IMessage {
 }
 
 export type PublicUser = Omit<IUser, 'password'>
+export type AuthUser = Pick<IUser, 'id' | 'username'>
 export type LoginCredentials = Pick<IUser, 'username' | 'password'>
 export type RegisterCredentials = {
   username: string

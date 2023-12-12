@@ -6,9 +6,7 @@ export const getCurrentUser = async (): Promise<PublicUser> => {
   return data
 }
 
-export const updateProfile = async (
-  obj: Partial<PublicUser>,
-): Promise<PublicUser> => {
+export const updateProfile = async (obj: Partial<PublicUser>): Promise<PublicUser> => {
   const { data } = await api.patch(`/users/${obj.id}`, {
     firstName: obj.firstName,
     lastName: obj.lastName,
@@ -18,5 +16,20 @@ export const updateProfile = async (
 
 export const searchUsers = async (username: string): Promise<PublicUser[]> => {
   const { data } = await api.get(`/users/${username}`)
+  return data
+}
+
+export const getUserContacts = async (): Promise<PublicUser[]> => {
+  const { data } = await api.get('/users/currentUser/contacts')
+  return data
+}
+
+export const addUserToContacts = async (userId: number) => {
+  const { data } = await api.patch(`/users/${userId}/add/contacts`)
+  return data
+}
+
+export const removeUserFromContacts = async (userId: number) => {
+  const { data } = await api.patch(`/users/${userId}/remove/contacts`)
   return data
 }

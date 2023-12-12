@@ -13,6 +13,7 @@ import { authRouter } from './routes/auth.route';
 import connectPgSimple from 'connect-pg-simple';
 import { SESSION_SECRET } from './config';
 import { userRouter } from './routes/user.route';
+import { convoRouter } from './routes/convo.route';
 
 const store = new (connectPgSimple(session))();
 const app = express();
@@ -51,6 +52,7 @@ app.get('/api/v1/demo', (req: Request, res: Response, _next: NextFunction) => {
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', middlewares.isAuthenticated, userRouter);
+app.use('/api/v1/convos', middlewares.isAuthenticated, convoRouter);
 // if (process.env.NODE_ENV === 'production') {
 //   const __dirname = path.resolve();
 //   app.use(express.static(path.join(__dirname, 'dist')));

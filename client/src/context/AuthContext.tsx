@@ -1,16 +1,16 @@
 import { createContext, useReducer, useEffect, useState } from 'react'
-import type { PublicUser } from '@/types/type'
+import type { AuthUser } from '@/types/type'
 import { api } from '@/services/api'
 
 type Action =
-  | { type: 'LOGIN'; payload: PublicUser }
+  | { type: 'LOGIN'; payload: AuthUser }
   | { type: 'LOGOUT' }
   | {
       type: 'AUTH_IS_READY'
-      payload: PublicUser
+      payload: AuthUser
     }
 type Dispatch = (action: Action) => void
-type State = { user: PublicUser | null; authenticated: boolean }
+type State = { user: AuthUser | null; authenticated: boolean }
 type AuthProviderProps = {
   children: React.ReactNode
 }

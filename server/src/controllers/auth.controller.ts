@@ -88,5 +88,8 @@ export const authUser = async (req: Request, res: Response) => {
   });
 
   if (!user) throw createHttpError(400, 'User not found');
-  res.status(200).json(user);
+  res.status(200).json({
+    id: user.id,
+    username: user.username,
+  });
 };
